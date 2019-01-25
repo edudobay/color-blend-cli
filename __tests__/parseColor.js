@@ -49,6 +49,16 @@ describe('parse decimal RGB colors', () => {
     expectThrowOnParseColor)
 })
 
+describe('parse decimal RGBA colors', () => {
+  test.each([
+    ['rgba:255,217,18,255', {rgba: [255, 217, 18, 255]}],
+    ['argb:37,0,0,0', {rgba: [0, 0, 0, 37]}],
+  ])(
+    'parses correctly decimal %s',
+    expectParseColor)
+
+})
+
 test('parser rejects empty color', () => {
   expect(() => parseColor('')).toThrow()
 })

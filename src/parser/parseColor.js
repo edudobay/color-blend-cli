@@ -31,24 +31,28 @@ function parseDecimalLiteral(literal, numBytes, order = null) {
   return (order ? order : range(numBytes)).map(i => components[i])
 }
 
+function parseColorValue(value, numBytes, order) {
+  if (isHexLiteral(value, numBytes)) {
+    return parseHexLiteral(value, numBytes, order)
+  }
+
+  if (isDecimalLiteral(value, numBytes)) {
+    return parseDecimalLiteral(value, numBytes, order)
+  }
+
+  throw new Error(`invalid color value for ${numBytes} components`)
+}
+
 function parseColor(color) {
   if (color.startsWith('rgba:')) {
-    return {rgba: parseHexLiteral(color.substr(5), 4)}
+    return {rgba: parseColorValue(color.substr(5), 4)}
   }
 
   if (color.startsWith('argb:')) {
-    return {rgba: parseHexLiteral(color.substr(5), 4, [1, 2, 3, 0])}
+    return {rgba: parseColorValue(color.substr(5), 4, [1, 2, 3, 0])}
   }
 
-  if (isHexLiteral(color, 3)) {
-    return {rgb: parseHexLiteral(color, 3)}
-  }
-
-  if (isDecimalLiteral(color, 3)) {
-    return {rgb: parseDecimalLiteral(color, 3)}
-  }
-
-  throw new Error('invalid color literal')
+  return {rgb: parseColorValue(color, 3)}
 }
 
 module.exports = parseColor
