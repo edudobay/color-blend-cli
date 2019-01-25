@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "color-blend": "^2.0.3"
+  },
+  "name": "color-blend-cli",
+  "version": "0.1.0",
+  "description": "Command-line tool for calculating color blends with alpha channel",
+  "main": "index.js",
+  "repository": "https://github.com/edudobay/color-blend-cli",
+  "author": "Eduardo Dobay <edudobay@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^1.1.0"
+  }
+}
