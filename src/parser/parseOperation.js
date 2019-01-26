@@ -9,6 +9,7 @@ function parseOperation(args) {
   }
 
   return {
+    blendMode: 'normal',
     bg: rhs,
     fg: lhs,
   }

@@ -6,6 +6,7 @@ function args(str) {
 
 test('parses correctly \'over\' operation between two hex colors', () => {
   expect(parseOperation(args('000000 over ffffff'))).toEqual({
+    blendMode: 'normal',
     bg: 'ffffff',
     fg: '000000'
   })
@@ -13,6 +14,7 @@ test('parses correctly \'over\' operation between two hex colors', () => {
 
 test('parses correctly over operation with decimal rgb colors', () => {
   expect(parseOperation(args('255,255,0 over 0,0,0'))).toEqual({
+    blendMode: 'normal',
     bg: '0,0,0',
     fg: '255,255,0'
   })
