@@ -1,6 +1,6 @@
 const parse = require('../src/parser/parse')
 
-describe('integrated operation and color parser', () => {
+describe.skip('integrated operation and color parser', () => {
   test.each([
     ['argb:cc000000 over ffffff', {
       blendMode: 'normal',
@@ -15,5 +15,14 @@ describe('integrated operation and color parser', () => {
   ])(
     'parses correctly over operation with mixed color literals',
     (text, parsed) => expect(parse(text)).toEqual(parsed)
+  )
+
+  test.each([
+    'argb:cc000000 over (argb:ccffcc00 over ffffff)',
+    '(argb:cc000000 over argb:ccffcc00) over ffffff',
+    'argb:cc000000 over argb:ccffcc00 over ffffff',
+  ])(
+    'parses composite expressions with left associativity',
+    (text) => expect(parse(text)).toEqual({})
   )
 })
