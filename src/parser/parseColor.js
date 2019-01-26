@@ -2,24 +2,34 @@ function range(n) {
   return [...Array(n).keys()]
 }
 
-function isHexLiteral(literal, numBytes) {
-  const expectedLength = numBytes * 2
-  const re = new RegExp(`^[0-9a-fA-F]{${expectedLength}}$`)
+const hexLiteralPatterns = {}
+const decimalLiteralPattern = /^[0-9]+$/
+const fractionalLiteralPattern = /^([01]?\.)?[0-9]+$/
 
-  return re.test(literal)
+function patternForHexLiteral(numBytes) {
+  if (!(numBytes in hexLiteralPatterns)) {
+    const expectedLength = numBytes * 2
+    hexLiteralPatterns[numBytes] = new RegExp(`^[0-9a-fA-F]{${expectedLength}}$`)
+  }
+
+  return hexLiteralPatterns[numBytes]
+}
+
+function isHexLiteral(literal, numBytes) {
+  return patternForHexLiteral(numBytes).test(literal)
 }
 
 function isDecimalLiteral(literal, numBytes) {
   const components = literal.split(',')
   return components.length === numBytes
-    && components.every(c => /^[0-9]+$/.test(c))
+    && components.every(c => decimalLiteralPattern.test(c))
     && components.map(c => parseInt(c, 10)).every(c => c >= 0 && c <= 255)
 }
 
 function isFractionalLiteral(literal, numBytes) {
   const components = literal.split(',')
   return components.length === numBytes
-    && components.every(c => /^([01]?\.)?[0-9]+$/.test(c))
+    && components.every(c => fractionalLiteralPattern.test(c))
     && components.map(c => parseFloat(c)).every(c => c >= 0 && c <= 1)
 }
 
