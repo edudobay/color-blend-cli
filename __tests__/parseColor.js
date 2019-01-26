@@ -51,9 +51,9 @@ describe('parse decimal RGB colors', () => {
 
 describe('parse fractional RGB colors', () => {
   test.each([
-    ['0.27,0.54,0.72', {rgbf: [0.27, 0.54, 0.72]}],
-    ['1.0,1,1', {rgbf: [1.0, 1.0, 1.0]}],
-    ['1.0,0,0', {rgbf: [1.0, 0, 0]}],
+    ['0.27,0.54,0.72', {rgb: [0.27, 0.54, 0.72], scale: 1}],
+    ['1.0,1,1', {rgb: [1.0, 1.0, 1.0], scale: 1}],
+    ['1.0,0,0', {rgb: [1.0, 0, 0], scale: 1}],
   ])(
     'parses correctly decimal RGB %s',
     expectParseColor)
@@ -87,8 +87,8 @@ describe('parse decimal RGBA colors', () => {
 
 describe('parse fractional RGBA colors', () => {
   test.each([
-    ['rgba:0.7,0.7,0.4,0.9', {rgbaf: [0.7, 0.7, 0.4, 0.9]}],
-    ['argb:0.37,0,0,0', {rgbaf: [0, 0, 0, 0.37]}],
+    ['rgba:0.7,0.7,0.4,0.9', {rgba: [0.7, 0.7, 0.4, 0.9], scale: 1}],
+    ['argb:0.37,0,0,0', {rgba: [0, 0, 0, 0.37], scale: 1}],
   ])(
     'parses correctly fractional %s',
     expectParseColor)

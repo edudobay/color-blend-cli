@@ -59,28 +59,24 @@ function parseColorValue(value, numBytes, order) {
   throw new Error(`invalid color value for ${numBytes} components`)
 }
 
+function colorValue(colorModel, {value, scale = null}) {
+  const result = {[colorModel]: value}
+  if (scale != null) {
+    result['scale'] = scale
+  }
+  return result
+}
+
 function parseColor(color) {
   if (color.startsWith('rgba:')) {
-    const {value, scale = 255} = parseColorValue(color.substr(5), 4)
-    if (scale === 1) {
-      return {rgbaf: value}
-    }
-    return {rgba: value}
+    return colorValue('rgba', parseColorValue(color.substr(5), 4))
   }
 
   if (color.startsWith('argb:')) {
-    const {value, scale = 255} = parseColorValue(color.substr(5), 4, [1, 2, 3, 0])
-    if (scale === 1) {
-      return {rgbaf: value}
-    }
-    return {rgba: value}
+    return colorValue('rgba', parseColorValue(color.substr(5), 4, [1, 2, 3, 0]))
   }
 
-  const {value, scale = 255} = parseColorValue(color, 3)
-  if (scale === 1) {
-    return {rgbf: value}
-  }
-  return {rgb: value}
+  return colorValue('rgb', parseColorValue(color, 3))
 }
 
 module.exports = parseColor
